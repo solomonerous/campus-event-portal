@@ -1,0 +1,68 @@
+{
+  "images": [
+    {
+      "id": 1,
+      "title": "TechFest 2024",
+      "year": "2023-24",
+      "category": "academic",
+      "url": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
+      "description": "Triển lãm công nghệ với nhiều dự án sáng tạo"
+    },
+    {
+      "id": 2,
+      "title": "Lễ khai giảng 2024",
+      "year": "2023-24",
+      "category": "cultural",
+      "url": "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800",
+      "description": "Lễ khai giảng năm học mới"
+    },
+    {
+      "id": 3,
+      "title": "Giải bóng đá 2024",
+      "year": "2023-24",
+      "category": "sports",
+      "url": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800",
+      "description": "Trận chung kết giải bóng đá liên khoa"
+    },
+    {
+      "id": 4,
+      "title": "Workshop AI",
+      "year": "2024-25",
+      "category": "academic",
+      "url": "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800",
+      "description": "Workshop về trí tuệ nhân tạo"
+    },
+    {
+      "id": 5,
+      "title": "Văn nghệ 2024",
+      "year": "2023-24",
+      "category": "cultural",
+      "url": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
+      "description": "Chương trình văn nghệ cuối năm"
+    },
+    {
+      "id": 6,
+      "title": "Ngày hội việc làm",
+      "year": "2024-25",
+      "category": "academic",
+      "url": "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800",
+      "description": "Ngày hội việc làm với nhiều doanh nghiệp tham gia"
+    },
+    {
+      "id": 7,
+      "title": "Marathon 2024",
+      "year": "2023-24",
+      "category": "sports",
+      "url": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800",
+      "description": "Giải marathon thường niên"
+    },
+    {
+      "id": 8,
+      "title": "Triển lãm nghệ thuật",
+      "year": "2024-25",
+      "category": "cultural",
+      "url": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
+      "description": "Triển lãm tác phẩm nghệ thuật sinh viên"
+    }
+  ]
+}

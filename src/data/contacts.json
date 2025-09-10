@@ -1,0 +1,51 @@
+{
+  "staff": [
+    {
+      "id": 1,
+      "name": "PGS.TS. Nguyễn Văn An",
+      "title": "Trưởng phòng Công tác sinh viên",
+      "department": "Phòng CTSV",
+      "phone": "0123 456 789",
+      "email": "nguyen.van.an@university.edu.vn"
+    },
+    {
+      "id": 2,
+      "name": "ThS. Trần Thị Bình",
+      "title": "Phụ trách hoạt động văn hóa",
+      "department": "Khoa Kỹ thuật",
+      "phone": "0123 456 790",
+      "email": "tran.thi.binh@university.edu.vn"
+    },
+    {
+      "id": 3,
+      "name": "TS. Lê Minh Cường",
+      "title": "Điều phối viên sự kiện học thuật",
+      "department": "Khoa Công nghệ thông tin",
+      "phone": "0123 456 791",
+      "email": "le.minh.cuong@university.edu.vn"
+    },
+    {
+      "id": 4,
+      "name": "ThS. Phạm Thị Dung",
+      "title": "Quản lý hoạt động thể thao",
+      "department": "Phòng Thể dục thể thao",
+      "phone": "0123 456 792",
+      "email": "pham.thi.dung@university.edu.vn"
+    },
+    {
+      "id": 5,
+      "name": "Nguyễn Thanh Hải",
+      "title": "Điều phối viên sinh viên",
+      "department": "Hội sinh viên",
+      "phone": "0123 456 793",
+      "email": "nguyen.thanh.hai@university.edu.vn"
+    }
+  ],
+  "university": {
+    "name": "Trường Đại học Kỹ thuật ABC",
+    "address": "123 Đường Đại học, Quận Cầu Giấy, Hà Nội",
+    "phone": "024 1234 5678",
+    "email": "info@university.edu.vn",
+    "website": "www.university.edu.vn"
+  }
+}

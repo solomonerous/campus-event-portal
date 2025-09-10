@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusConnect - Trung tâm sự kiện</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: '#ffffff',
+                        foreground: 'oklch(0.145 0 0)',
+                        card: '#ffffff',
+                        'card-foreground': 'oklch(0.145 0 0)',
+                        primary: '#030213',
+                        'primary-foreground': 'oklch(1 0 0)',
+                        secondary: 'oklch(0.95 0.0058 264.53)',
+                        'secondary-foreground': '#030213',
+                        muted: '#ececf0',
+                        'muted-foreground': '#717182',
+                        accent: '#e9ebef',
+                        'accent-foreground': '#030213',
+                        destructive: '#d4183d',
+                        'destructive-foreground': '#ffffff',
+                        border: 'rgba(0, 0, 0, 0.1)',
+                        'input-background': '#f3f3f5',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .banner-transition {
+            transition: opacity 1s ease-in-out;
+        }
+        
+        /* Mobile menu styles */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        
+        /* Gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        /* Rating stars */
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            font-size: 24px;
+            transition: color 0.2s;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-background text-foreground">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+        <div class="container mx-auto px-4">
+            <div class="flex h-16 items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center">
+                        <span class="font-semibold">CC</span>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold">CampusConnect</h1>
+                        <p class="text-xs text-muted-foreground">Trung tâm sự kiện</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <button onclick="showPage('home')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="home">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        </svg>
+                        <span>Trang chủ</span>
+                    </button>
+                    <button onclick="showPage('about')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="about">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 17 2-2v-6l-2-2"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 9h.01"/>
+                        </svg>
+                        <span>Giới thiệu</span>
+                    </button>
+                    <button onclick="showPage('events')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="events">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                        </svg>
+                        <span>Lịch sự kiện</span>
+                    </button>
+                    <button onclick="showPage('gallery')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="gallery">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 7-5-4H8l-5 4v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z"/>
+                        </svg>
+                        <span>Thư viện ảnh</span>
+                    </button>
+                    <button onclick="showPage('feedback')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="feedback">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                        <span>Phản hồi</span>
+                    </button>
+                    <button onclick="showPage('contact')" class="nav-btn flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent" data-page="contact">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        <span>Liên hệ</span>
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden inline-flex items-center justify-center p-2 rounded-md hover:bg-accent transition-colors" onclick="toggleMobileMenu()">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 p-6">
+        <div class="flex justify-end mb-8">
+            <button onclick="toggleMobileMenu()" class="p-2 hover:bg-accent rounded-md">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <button onclick="showPage('home'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="home">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                </svg>
+                <span>Trang chủ</span>
+            </button>
+            <button onclick="showPage('about'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="about">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 17 2-2v-6l-2-2"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m11 9h.01"/>
+                </svg>
+                <span>Giới thiệu</span>
+            </button>
+            <button onclick="showPage('events'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="events">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                </svg>
+                <span>Lịch sự kiện</span>
+            </button>
+            <button onclick="showPage('gallery'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="gallery">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 7-5-4H8l-5 4v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z"/>
+                </svg>
+                <span>Thư viện ảnh</span>
+            </button>
+            <button onclick="showPage('feedback'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="feedback">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                <span>Phản hồi</span>
+            </button>
+            <button onclick="showPage('contact'); toggleMobileMenu()" class="mobile-nav-btn w-full text-left flex items-center space-x-3 px-3 py-2 rounded-md hover:bg-accent" data-page="contact">
+                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span>Liên hệ</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        <!-- HOME PAGE -->
+        <div id="homePage" class="page">
+            <!-- Hero Banner -->
+            <section class="relative h-[500px] md:h-[600px] overflow-hidden">
+                <div id="bannerContainer" class="absolute inset-0">
+                    <img id="bannerImage" src="https://images.unsplash.com/photo-1706016899218-ebe36844f70e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwY2FtcHVzJTIwYnVpbGRpbmd8ZW58MXx8fHwxNzU3NDQwNzA0fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="University Banner" class="w-full h-full object-cover banner-transition">
+                    <div class="absolute inset-0 bg-black/40"></div>
+                </div>
+                
+                <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-2xl text-white">
+                        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                            Chào mừng đến với CampusConnect
+                        </h1>
+                        <p id="bannerSubtitle" class="text-xl md:text-2xl mb-6 opacity-90">
+                            Nơi khởi nguồn tri thức và sáng tạo
+                        </p>
+                        <p class="text-lg mb-8 opacity-80">
+                            Cập nhật thông tin sự kiện, kết nối cộng đồng và tham gia ngay các hoạt động tại trường!
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="showPage('events')" class="px-6 py-3 bg-white text-black rounded-md hover:bg-white/90 transition-colors flex items-center justify-center">
+                                Xem sự kiện
+                                <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                                </svg>
+                            </button>
+                            <button onclick="showPage('about')" class="px-6 py-3 border border-white text-white rounded-md hover:bg-white hover:text-black transition-colors">
+                                Tìm hiểu thêm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner indicators -->
+                <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <button onclick="setBannerIndex(0)" class="banner-indicator w-3 h-3 rounded-full transition-all bg-white" data-index="0"></button>
+                    <button onclick="setBannerIndex(1)" class="banner-indicator w-3 h-3 rounded-full transition-all bg-white/50" data-index="1"></button>
+                </div>
+            </section>
+
+            <!-- Welcome Message -->
+            <section class="py-16 bg-muted/30">
+                <div class="container mx-auto px-4 text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">
+                        Trung tâm sự kiện Trường Đại học Kỹ thuật ABC
+                    </h2>
+                    <p class="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                        CampusConnect là nền tảng trung tâm giúp sinh viên, giảng viên và cộng đồng trường học 
+                        kết nối với nhau thông qua các sự kiện, hoạt động văn hóa, học thuật và thể thao. 
+                        Hãy cùng nhau tạo nên những trải nghiệm đáng nhớ và xây dựng cộng đồng học tập sôi động.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Upcoming Events -->
+            <section class="py-16">
+                <div class="container mx-auto px-4">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold mb-4">Sự kiện sắp tới</h2>
+                        <p class="text-muted-foreground text-lg">Đừng bỏ lỡ những hoạt động thú vị sắp diễn ra</p>
+                    </div>
+
+                    <div id="upcomingEvents" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Events will be populated by JavaScript -->
+                    </div>
+
+                    <div class="text-center mt-12">
+                        <button onclick="showPage('events')" class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors flex items-center mx-auto">
+                            Xem tất cả sự kiện
+                            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Links -->
+            <section class="py-16 bg-muted/30">
+                <div class="container mx-auto px-4">
+                    <h2 class="text-3xl font-bold text-center mb-12">Khám phá CampusConnect</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-card rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" onclick="showPage('events')">
+                            <div class="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Lịch sự kiện</h3>
+                            <p class="text-sm text-muted-foreground">Xem toàn bộ các sự kiện sắp tới và đã diễn ra</p>
+                        </div>
+                        
+                        <div class="bg-card rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" onclick="showPage('gallery')">
+                            <div class="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 7-5-4H8l-5 4v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Thư viện ảnh</h3>
+                            <p class="text-sm text-muted-foreground">Khám phá hình ảnh từ các sự kiện đã tổ chức</p>
+                        </div>
+                        
+                        <div class="bg-card rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" onclick="showPage('feedback')">
+                            <div class="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Phản hồi</h3>
+                            <p class="text-sm text-muted-foreground">Chia sẻ ý kiến và đánh giá về các sự kiện</p>
+                        </div>
+                        
+                        <div class="bg-card rounded-lg p-6 text-center hover:shadow-lg transition-shadow cursor-pointer" onclick="showPage('contact')">
+                            <div class="mx-auto h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                                <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-semibold mb-2">Liên hệ</h3>
+                            <p class="text-sm text-muted-foreground">Thông tin liên hệ và vị trí trường học</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="aboutPage" class="page hidden">
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <!-- Header -->
+                    <div class="text-center mb-16">
+                        <h1 class="text-4xl font-bold mb-6">Về chúng tôi</h1>
+                        <p class="text-xl text-muted-foreground max-w-3xl mx-auto">
+                            Trường Đại học Kỹ thuật ABC - Nơi khởi nguồn tri thức và định hình tương lai
+                        </p>
+                    </div>
+
+                    <!-- University Info -->
+                    <section class="mb-16">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h2 class="text-3xl font-bold mb-6">Lịch sử hình thành</h2>
+                                <div class="space-y-4 text-muted-foreground">
+                                    <p>
+                                        Trường Đại học Kỹ thuật ABC được thành lập năm 1956, là một trong những trường đại học kỹ thuật hàng đầu Việt Nam với bề dày lịch sử và truyền thống.
+                                    </p>
+                                    <p>
+                                        Trải qua hơn 65 năm xây dựng và phát triển, trường đã đào tạo hàng trăm nghìn kỹ sư, cử nhân khoa học, thạc sĩ và tiến sĩ cho đất nước.
+                                    </p>
+                                    <p>
+                                        Hiện tại, trường có 15 khoa/viện đào tạo với hơn 60 chuyên ngành, phục vụ nhu cầu nhân lực chất lượng cao của đất nước.
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <img src="https://images.unsplash.com/photo-1562774053-701939374585?w=800" alt="University Building" class="w-full h-80 object-cover rounded-lg shadow-lg">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Stats -->
+                    <section class="mb-16 bg-muted/30 rounded-lg p-8">
+                        <h2 class="text-3xl font-bold text-center mb-8">Thống kê</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">65+</div>
+                                <div class="text-sm text-muted-foreground">Năm kinh nghiệm</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">45,000+</div>
+                                <div class="text-sm text-muted-foreground">Sinh viên</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">15</div>
+                                <div class="text-sm text-muted-foreground">Khoa/Viện</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-primary mb-2">300+</div>
+                                <div class="text-sm text-muted-foreground">Sự kiện/năm</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Annual Events -->
+                    <section>
+                        <h2 class="text-3xl font-bold text-center mb-12">Sự kiện thường niên</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div class="bg-card rounded-lg overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800" alt="Tech Festival" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold mb-3">TechFest</h3>
+                                    <p class="text-muted-foreground mb-3">Lễ hội công nghệ thường niên với các triển lãm sáng tạo, workshop và cuộc thi lập trình.</p>
+                                    <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Tháng 7 hàng năm</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-card rounded-lg overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800" alt="Cultural Week" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold mb-3">Tuần lễ Văn hóa</h3>
+                                    <p class="text-muted-foreground mb-3">Ngày hội văn hóa đa dạng với các hoạt động biểu diễn nghệ thuật và ẩm thực.</p>
+                                    <span class="inline-block bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Tháng 10 hàng năm</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-card rounded-lg overflow-hidden shadow-lg">
+                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800" alt="Sports Tournament" class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold mb-3">Giải thể thao</h3>
+                                    <p class="text-muted-foreground mb-3">Giải thể thao sinh viên với nhiều môn thể thao đa dạng và hấp dẫn.</p>
+                                    <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Tháng 4 hàng năm</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- EVENTS PAGE -->
+        <div id="eventsPage" class="page hidden">
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <!-- Header -->
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-6">Lịch sự kiện</h1>
+                        <p class="text-xl text-muted-foreground">Cập nhật các sự kiện mới nhất tại trường</p>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-4">
+                            <select id="categoryFilter" class="px-4 py-2 border rounded-md bg-white">
+                                <option value="all">Tất cả danh mục</option>
+                                <option value="academic">Học thuật</option>
+                                <option value="cultural">Văn hóa</option>
+                                <option value="sports">Thể thao</option>
+                            </select>
+                            <select id="sortBy" class="px-4 py-2 border rounded-md bg-white">
+                                <option value="date">Sắp xếp theo ngày</option>
+                                <option value="title">Sắp xếp theo tên</option>
+                                <option value="category">Sắp xếp theo danh mục</option>
+                            </select>
+                        </div>
+                        <div class="text-sm text-muted-foreground">
+                            <span id="eventCount">0</span> sự kiện
+                        </div>
+                    </div>
+
+                    <!-- Events List -->
+                    <div id="eventsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Events will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GALLERY PAGE -->
+        <div id="galleryPage" class="page hidden">
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <!-- Header -->
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-6">Thư viện ảnh</h1>
+                        <p class="text-xl text-muted-foreground">Khoảnh khắc đáng nhớ từ các sự kiện</p>
+                    </div>
+
+                    <!-- Gallery Filters -->
+                    <div class="mb-8 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-wrap gap-4">
+                            <select id="galleryYearFilter" class="px-4 py-2 border rounded-md bg-white">
+                                <option value="all">Tất cả năm</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                            </select>
+                            <select id="galleryCategoryFilter" class="px-4 py-2 border rounded-md bg-white">
+                                <option value="all">Tất cả danh mục</option>
+                                <option value="academic">Học thuật</option>
+                                <option value="cultural">Văn hóa</option>
+                                <option value="sports">Thể thao</option>
+                            </select>
+                        </div>
+                        <div class="text-sm text-muted-foreground">
+                            <span id="photoCount">0</span> ảnh
+                        </div>
+                    </div>
+
+                    <!-- Gallery Grid -->
+                    <div id="galleryGrid" class="gallery-grid">
+                        <!-- Photos will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEEDBACK PAGE -->
+        <div id="feedbackPage" class="page hidden">
+            <div class="py-16">
+                <div class="container mx-auto px-4 max-w-4xl">
+                    <!-- Header -->
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-6">Phản hồi</h1>
+                        <p class="text-xl text-muted-foreground">Chia sẻ ý kiến của bạn về các sự kiện</p>
+                    </div>
+
+                    <!-- Feedback Form -->
+                    <div class="bg-card rounded-lg p-8 shadow-lg">
+                        <form id="feedbackForm" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2" for="name">Họ và tên</label>
+                                    <input type="text" id="name" name="name" class="w-full px-4 py-2 border rounded-md bg-input-background" required>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2" for="email">Email</label>
+                                    <input type="email" id="email" name="email" class="w-full px-4 py-2 border rounded-md bg-input-background" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2" for="event">Sự kiện</label>
+                                <select id="event" name="event" class="w-full px-4 py-2 border rounded-md bg-white">
+                                    <option value="">Chọn sự kiện</option>
+                                    <option value="techfest">TechFest 2025</option>
+                                    <option value="cultural-week">Tuần lễ Văn hóa</option>
+                                    <option value="hackathon">Hackathon 2025</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Đánh giá</label>
+                                <div class="flex space-x-1">
+                                    <span class="star" data-rating="1">★</span>
+                                    <span class="star" data-rating="2">★</span>
+                                    <span class="star" data-rating="3">★</span>
+                                    <span class="star" data-rating="4">★</span>
+                                    <span class="star" data-rating="5">★</span>
+                                </div>
+                                <input type="hidden" id="rating" name="rating" value="0">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium mb-2" for="feedback">Nội dung phản hồi</label>
+                                <textarea id="feedback" name="feedback" rows="6" class="w-full px-4 py-2 border rounded-md bg-input-background" placeholder="Chia sẻ trải nghiệm của bạn..."></textarea>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button type="submit" class="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                                    Gửi phản hồi
+                                </button>
+                                <button type="button" onclick="resetForm()" class="px-6 py-3 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                                    Đặt lại
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Recent Feedback -->
+                    <div class="mt-16">
+                        <h2 class="text-2xl font-bold mb-8 text-center">Phản hồi gần đây</h2>
+                        <div id="recentFeedback" class="space-y-6">
+                            <!-- Recent feedback will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contactPage" class="page hidden">
+            <div class="py-16">
+                <div class="container mx-auto px-4">
+                    <!-- Header -->
+                    <div class="text-center mb-12">
+                        <h1 class="text-4xl font-bold mb-6">Liên hệ</h1>
+                        <p class="text-xl text-muted-foreground">Thông tin liên hệ và địa chỉ</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Contact Info -->
+                        <div>
+                            <h2 class="text-2xl font-bold mb-6">Thông tin liên hệ</h2>
+                            
+                            <div class="space-y-6">
+                                <div class="flex items-start space-x-4">
+                                    <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold mb-2">Địa chỉ</h3>
+                                        <p class="text-muted-foreground">123 Đường Đại học, Quận Cầu Giấy, Hà Nội</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-4">
+                                    <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold mb-2">Điện thoại</h3>
+                                        <p class="text-muted-foreground">024 1234 5678</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start space-x-4">
+                                    <div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <svg class="h-6 w-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold mb-2">Email</h3>
+                                        <p class="text-muted-foreground">info@university.edu.vn</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Staff -->
+                            <h2 class="text-2xl font-bold mb-6 mt-12">Đội ngũ</h2>
+                            <div class="space-y-4">
+                                <div class="flex items-center space-x-4 p-4 bg-muted/30 rounded-lg">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" alt="Staff" class="h-16 w-16 rounded-full object-cover">
+                                    <div>
+                                        <h3 class="font-semibold">Nguyễn Văn An</h3>
+                                        <p class="text-sm text-muted-foreground">Trưởng phòng Công tác Sinh viên</p>
+                                        <p class="text-sm text-muted-foreground">Email: nva@university.edu.vn</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center space-x-4 p-4 bg-muted/30 rounded-lg">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b789?w=100" alt="Staff" class="h-16 w-16 rounded-full object-cover">
+                                    <div>
+                                        <h3 class="font-semibold">Trần Thị Bình</h3>
+                                        <p class="text-sm text-muted-foreground">Quản lý Sự kiện</p>
+                                        <p class="text-sm text-muted-foreground">Email: ttb@university.edu.vn</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Map -->
+                        <div>
+                            <h2 class="text-2xl font-bold mb-6">Bản đồ</h2>
+                            <div class="bg-muted/30 rounded-lg h-96 flex items-center justify-center">
+                                <p class="text-muted-foreground">Google Maps sẽ được nhúng tại đây</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t bg-muted/50">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="font-semibold mb-4">CampusConnect</h3>
+                    <p class="text-sm text-muted-foreground">
+                        Nền tảng kết nối sinh viên với các sự kiện và hoạt động tại trường Đại học Kỹ thuật ABC.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Liên kết nhanh</h3>
+                    <div class="space-y-2">
+                        <button onclick="showPage('home')" class="block text-sm text-muted-foreground hover:text-foreground transition-colors">Trang chủ</button>
+                        <button onclick="showPage('about')" class="block text-sm text-muted-foreground hover:text-foreground transition-colors">Giới thiệu</button>
+                        <button onclick="showPage('events')" class="block text-sm text-muted-foreground hover:text-foreground transition-colors">Lịch sự kiện</button>
+                        <button onclick="showPage('gallery')" class="block text-sm text-muted-foreground hover:text-foreground transition-colors">Thư viện ảnh</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">Thông tin liên hệ</h3>
+                    <div class="space-y-2 text-sm text-muted-foreground">
+                        <p>123 Đường Đại học, Quận Cầu Giấy, Hà Nội</p>
+                        <p>Email: info@university.edu.vn</p>
+                        <p>Điện thoại: 024 1234 5678</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-4 border-t text-center text-sm text-muted-foreground">
+                © 2024 CampusConnect. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content p-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modalTitle" class="text-lg font-semibold"></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <img id="modalImage" src="" alt="" class="max-w-full max-h-[70vh] object-contain">
+            <p id="modalDescription" class="mt-4 text-muted-foreground"></p>
+        </div>
+    </div>
+
+    <script>
+        // Application State
+        let currentPage = 'home';
+        let currentBannerIndex = 0;
+        let bannerInterval;
+        let currentRating = 0;
+
+        // Data
+        const bannerImages = [
+            {
+                url: "https://images.unsplash.com/photo-1706016899218-ebe36844f70e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx1bml2ZXJzaXR5JTIwY2FtcHVzJTIwYnVpbGRpbmd8ZW58MXx8fHwxNzU3NDQwNzA0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+                title: "Trường Đại học Kỹ thuật ABC",
+                subtitle: "Nơi khởi nguồn tri thức và sáng tạo"
+            },
+            {
+                url: "https://images.unsplash.com/photo-1591655630844-28e59efe0c7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMHVuaXZlcnNpdHklMjBncmFkdWF0aW9ufGVufDF8fHx8MTc1NzUwNTQxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+                title: "Cộng đồng sinh viên năng động",
+                subtitle: "Cùng nhau xây dựng tương lai tươi sáng"
+            }
+        ];
+
+        const eventsData = [
+            {
+                id: 1,
+                title: "TechFest 2025",
+                date: "2025-07-20",
+                time: "10:00 - 16:00",
+                location: "Phòng hội thảo chính",
+                category: "academic",
+                shortDescription: "Triển lãm công nghệ thường niên với các dự án sáng tạo từ sinh viên và workshop từ các chuyên gia trong ngành.",
+                fullDescription: "TechFest 2025 là sự kiện công nghệ lớn nhất trong năm tại trường, quy tụ sinh viên, giảng viên và các chuyên gia công nghệ. Sự kiện bao gồm triển lãm các dự án sáng tạo, workshop về các công nghệ mới và cuộc thi lập trình với giải thưởng hấp dẫn.",
+                image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"
+            },
+            {
+                id: 2,
+                title: "Tuần lễ Văn hóa",
+                date: "2025-08-05",
+                time: "09:00 - 18:00",
+                location: "Sân vận động trường",
+                category: "cultural",
+                shortDescription: "Lễ hội văn hóa đa dạng với các hoạt động biểu diễn, ẩm thực và trưng bày truyền thống.",
+                fullDescription: "Tuần lễ Văn hóa là dịp để sinh viên từ khắp các vùng miền chia sẻ nét văn hóa đặc trưng của quê hương. Sự kiện có các gian hàng ẩm thực truyền thống, biểu diễn nghệ thuật dân gian và triển lãm trang phục truyền thống.",
+                image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800"
+            },
+            {
+                id: 3,
+                title: "Hackathon 2025",
+                date: "2025-07-15",
+                time: "08:00 - 20:00",
+                location: "Phòng lab 302",
+                category: "academic",
+                shortDescription: "Cuộc thi lập trình 48 giờ với giải thưởng hấp dẫn và cơ hội thực tập tại các công ty công nghệ.",
+                fullDescription: "Hackathon 2025 là cuộc thi lập trình marathon trong 48 giờ liên tục. Các đội sẽ phải giải quyết những thách thức thực tế từ các doanh nghiệp công nghệ hàng đầu. Giải thưởng bao gồm tiền mặt và cơ hội thực tập có lương.",
+                image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800"
+            },
+            {
+                id: 4,
+                title: "Giải bóng đá Cup Rector",
+                date: "2025-09-10",
+                time: "14:00 - 18:00",
+                location: "Sân bóng trường",
+                category: "sports",
+                shortDescription: "Giải bóng đá thường niên dành cho sinh viên các khoa trong trường.",
+                fullDescription: "Giải bóng đá Cup Rector là giải đấu lớn nhất trong năm, thu hút sự tham gia của 16 đội tuyển từ các khoa. Đây là dịp để sinh viên thể hiện tinh thần đoàn kết và fair play.",
+                image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"
+            },
+            {
+                id: 5,
+                title: "Hội thảo Khởi nghiệp",
+                date: "2025-08-20",
+                time: "13:00 - 17:00",
+                location: "Hội trường A",
+                category: "academic",
+                shortDescription: "Hội thảo về khởi nghiệp với sự tham gia của các doanh nhân thành công.",
+                fullDescription: "Hội thảo Khởi nghiệp mời các doanh nhân trẻ thành công chia sẻ kinh nghiệm và định hướng cho sinh viên muốn khởi nghiệp. Sự kiện cũng có phần networking và tư vấn 1-1.",
+                image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=800"
+            },
+            {
+                id: 6,
+                title: "Đêm nhạc Acoustic",
+                date: "2025-07-30",
+                time: "19:00 - 22:00",
+                location: "Sân khấu ngoài trời",
+                category: "cultural",
+                shortDescription: "Đêm nhạc acoustic với sự tham gia của các ban nhạc sinh viên.",
+                fullDescription: "Đêm nhạc Acoustic là sự kiện văn hóa thường niên, tạo sân chơi cho các tài năng âm nhạc trong trường. Các ban nhạc sinh viên sẽ biểu diễn những ca khúc acoustic được yêu thích.",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800"
+            }
+        ];
+
+        const galleryData = [
+            {
+                id: 1,
+                title: "TechFest 2024 - Triển lãm Robot",
+                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600",
+                category: "academic",
+                year: "2024",
+                description: "Triển lãm các robot được thiết kế và lập trình bởi sinh viên."
+            },
+            {
+                id: 2,
+                title: "Tuần lễ Văn hóa 2024 - Biểu diễn dân tộc",
+                image: "https://images.unsplash.com/photo-1504609813442-a8924e83f76e?w=600",
+                category: "cultural",
+                year: "2024",
+                description: "Màn biểu diễn trang phục dân tộc đầy màu sắc."
+            },
+            {
+                id: 3,
+                title: "Giải bóng đá Cup Rector 2024",
+                image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600",
+                category: "sports",
+                year: "2024",
+                description: "Khoảnh khắc hấp dẫn trong trận chung kết."
+            },
+            {
+                id: 4,
+                title: "Hackathon 2024 - Coding Marathon",
+                image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600",
+                category: "academic",
+                year: "2024",
+                description: "Các đội thi đang tập trung cao độ trong cuộc thi lập trình."
+            },
+            {
+                id: 5,
+                title: "Đêm nhạc Acoustic 2024",
+                image: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600",
+                category: "cultural",
+                year: "2024",
+                description: "Không khí ấm cúng trong đêm nhạc acoustic."
+            },
+            {
+                id: 6,
+                title: "Hội thảo AI và Machine Learning",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600",
+                category: "academic",
+                year: "2024",
+                description: "Các chuyên gia chia sẻ về xu hướng AI mới nhất."
+            },
+            {
+                id: 7,
+                title: "Festival Ẩm thực 2023",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600",
+                category: "cultural",
+                year: "2023",
+                description: "Các món ăn truyền thống từ khắp ba miền."
+            },
+            {
+                id: 8,
+                title: "Giải cầu lông sinh viên 2023",
+                image: "https://images.unsplash.com/photo-1544717302-de2939b7ef71?w=600",
+                category: "sports",
+                year: "2023",
+                description: "Trận đấu cầu lông đầy kịch tính."
+            }
+        ];
+
+        const feedbackData = [
+            {
+                id: 1,
+                name: "Nguyễn Văn A",
+                event: "TechFest 2024",
+                rating: 5,
+                comment: "Sự kiện rất hay và bổ ích! Tôi đã học được rất nhiều kiến thức mới về công nghệ.",
+                date: "2024-07-21"
+            },
+            {
+                id: 2,
+                name: "Trần Thị B",
+                event: "Tuần lễ Văn hóa",
+                rating: 4,
+                comment: "Chương trình đa dạng và thú vị. Hy vọng năm sau sẽ có thêm nhiều hoạt động hơn.",
+                date: "2024-08-06"
+            },
+            {
+                id: 3,
+                name: "Lê Văn C",
+                event: "Hackathon 2024",
+                rating: 5,
+                comment: "Cuộc thi rất challenging và exciting. Đội tôi đã có những trải nghiệm tuyệt vời.",
+                date: "2024-07-16"
+            }
+        ];
+
+        // Utility Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function getCategoryColor(category) {
+            switch (category) {
+                case 'academic': return 'bg-blue-100 text-blue-800';
+                case 'cultural': return 'bg-purple-100 text-purple-800';
+                case 'sports': return 'bg-green-100 text-green-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function getCategoryLabel(category) {
+            switch (category) {
+                case 'academic': return 'Học thuật';
+                case 'cultural': return 'Văn hóa';
+                case 'sports': return 'Thể thao';
+                default: return category;
+            }
+        }
+
+        // Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.add('hidden');
+            });
+
+            // Show selected page
+            document.getElementById(pageId + 'Page').classList.remove('hidden');
+            document.getElementById(pageId + 'Page').classList.add('fade-in');
+
+            // Update navigation
+            updateNavigation(pageId);
+            currentPage = pageId;
+
+            // Initialize page-specific content
+            switch(pageId) {
+                case 'home':
+                    initHomePage();
+                    break;
+                case 'events':
+                    initEventsPage();
+                    break;
+                case 'gallery':
+                    initGalleryPage();
+                    break;
+                case 'feedback':
+                    initFeedbackPage();
+                    break;
+            }
+        }
+
+        function updateNavigation(activePageId) {
+            // Update desktop navigation
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.dataset.page === activePageId) {
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('hover:bg-accent');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('hover:bg-accent');
+                }
+            });
+
+            // Update mobile navigation
+            document.querySelectorAll('.mobile-nav-btn').forEach(btn => {
+                if (btn.dataset.page === activePageId) {
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('hover:bg-accent');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('hover:bg-accent');
+                }
+            });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('open');
+        }
+
+        // Home Page Functions
+        function initHomePage() {
+            startBannerSlideshow();
+            renderUpcomingEvents();
+        }
+
+        function startBannerSlideshow() {
+            if (bannerInterval) clearInterval(bannerInterval);
+            
+            bannerInterval = setInterval(() => {
+                currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
+                updateBanner();
+            }, 5000);
+        }
+
+        function setBannerIndex(index) {
+            currentBannerIndex = index;
+            updateBanner();
+            // Restart the interval
+            startBannerSlideshow();
+        }
+
+        function updateBanner() {
+            const bannerImage = document.getElementById('bannerImage');
+            const bannerSubtitle = document.getElementById('bannerSubtitle');
+            const indicators = document.querySelectorAll('.banner-indicator');
+
+            bannerImage.src = bannerImages[currentBannerIndex].url;
+            bannerSubtitle.textContent = bannerImages[currentBannerIndex].subtitle;
+
+            indicators.forEach((indicator, index) => {
+                if (index === currentBannerIndex) {
+                    indicator.classList.remove('bg-white/50');
+                    indicator.classList.add('bg-white');
+                } else {
+                    indicator.classList.remove('bg-white');
+                    indicator.classList.add('bg-white/50');
+                }
+            });
+        }
+
+        function renderUpcomingEvents() {
+            const container = document.getElementById('upcomingEvents');
+            const upcomingEvents = eventsData.slice(0, 3);
+
+            container.innerHTML = upcomingEvents.map(event => `
+                <div class="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="relative h-48">
+                        <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 px-2 py-1 text-xs rounded ${getCategoryColor(event.category)}">
+                            ${getCategoryLabel(event.category)}
+                        </span>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-3 line-clamp-2">${event.title}</h3>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                                </svg>
+                                ${formatDate(event.date)}
+                            </div>
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                ${event.time}
+                            </div>
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                ${event.location}
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm text-muted-foreground line-clamp-3 mb-4">
+                            ${event.shortDescription}
+                        </p>
+                        <button class="w-full px-4 py-2 border rounded-md hover:bg-gray-50 transition-colors">
+                            Tìm hiểu thêm
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Events Page Functions
+        function initEventsPage() {
+            renderEvents();
+            setupEventFilters();
+        }
+
+        function renderEvents(filteredEvents = eventsData) {
+            const container = document.getElementById('eventsList');
+            const eventCount = document.getElementById('eventCount');
+            
+            eventCount.textContent = filteredEvents.length;
+
+            container.innerHTML = filteredEvents.map(event => `
+                <div class="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                    <div class="relative h-48">
+                        <img src="${event.image}" alt="${event.title}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 px-2 py-1 text-xs rounded ${getCategoryColor(event.category)}">
+                            ${getCategoryLabel(event.category)}
+                        </span>
+                    </div>
+                    
+                    <div class="p-6">
+                        <h3 class="text-lg font-semibold mb-3 line-clamp-2">${event.title}</h3>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"/>
+                                </svg>
+                                ${formatDate(event.date)}
+                            </div>
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                ${event.time}
+                            </div>
+                            <div class="flex items-center text-sm text-muted-foreground">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                ${event.location}
+                            </div>
+                        </div>
+                        
+                        <p class="text-sm text-muted-foreground line-clamp-3 mb-4">
+                            ${event.shortDescription}
+                        </p>
+                        <button onclick="showEventDetails(${event.id})" class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                            Chi tiết sự kiện
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupEventFilters() {
+            const categoryFilter = document.getElementById('categoryFilter');
+            const sortBy = document.getElementById('sortBy');
+
+            categoryFilter.addEventListener('change', filterAndSortEvents);
+            sortBy.addEventListener('change', filterAndSortEvents);
+        }
+
+        function filterAndSortEvents() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = eventsData;
+
+            // Filter by category
+            if (categoryFilter !== 'all') {
+                filtered = filtered.filter(event => event.category === categoryFilter);
+            }
+
+            // Sort events
+            switch (sortBy) {
+                case 'date':
+                    filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'title':
+                    filtered.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'category':
+                    filtered.sort((a, b) => a.category.localeCompare(b.category));
+                    break;
+            }
+
+            renderEvents(filtered);
+        }
+
+        function showEventDetails(eventId) {
+            const event = eventsData.find(e => e.id === eventId);
+            if (event) {
+                alert(`${event.title}\n\n${event.fullDescription}\n\nNgày: ${formatDate(event.date)}\nThời gian: ${event.time}\nĐịa điểm: ${event.location}`);
+            }
+        }
+
+        // Gallery Page Functions
+        function initGalleryPage() {
+            renderGallery();
+            setupGalleryFilters();
+        }
+
+        function renderGallery(filteredPhotos = galleryData) {
+            const container = document.getElementById('galleryGrid');
+            const photoCount = document.getElementById('photoCount');
+            
+            photoCount.textContent = filteredPhotos.length;
+
+            container.innerHTML = filteredPhotos.map(photo => `
+                <div class="bg-card rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openImageModal(${photo.id})">
+                    <img src="${photo.image}" alt="${photo.title}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2 line-clamp-2">${photo.title}</h3>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs px-2 py-1 rounded ${getCategoryColor(photo.category)}">
+                                ${getCategoryLabel(photo.category)}
+                            </span>
+                            <span class="text-xs text-muted-foreground">${photo.year}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupGalleryFilters() {
+            const yearFilter = document.getElementById('galleryYearFilter');
+            const categoryFilter = document.getElementById('galleryCategoryFilter');
+
+            yearFilter.addEventListener('change', filterGallery);
+            categoryFilter.addEventListener('change', filterGallery);
+        }
+
+        function filterGallery() {
+            const yearFilter = document.getElementById('galleryYearFilter').value;
+            const categoryFilter = document.getElementById('galleryCategoryFilter').value;
+
+            let filtered = galleryData;
+
+            if (yearFilter !== 'all') {
+                filtered = filtered.filter(photo => photo.year === yearFilter);
+            }
+
+            if (categoryFilter !== 'all') {
+                filtered = filtered.filter(photo => photo.category === categoryFilter);
+            }
+
+            renderGallery(filtered);
+        }
+
+        function openImageModal(photoId) {
+            const photo = galleryData.find(p => p.id === photoId);
+            if (photo) {
+                document.getElementById('modalTitle').textContent = photo.title;
+                document.getElementById('modalImage').src = photo.image;
+                document.getElementById('modalImage').alt = photo.title;
+                document.getElementById('modalDescription').textContent = photo.description;
+                document.getElementById('imageModal').classList.add('show');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('show');
+        }
+
+        // Feedback Page Functions
+        function initFeedbackPage() {
+            setupRatingSystem();
+            renderRecentFeedback();
+            setupFeedbackForm();
+        }
+
+        function setupRatingSystem() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                star.addEventListener('click', () => setRating(index + 1));
+                star.addEventListener('mouseover', () => highlightStars(index + 1));
+            });
+
+            document.querySelector('.star').parentElement.addEventListener('mouseleave', updateStarDisplay);
+        }
+
+        function setRating(rating) {
+            currentRating = rating;
+            document.getElementById('rating').value = rating;
+            updateStarDisplay();
+        }
+
+        function highlightStars(rating) {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function updateStarDisplay() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < currentRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function setupFeedbackForm() {
+            const form = document.getElementById('feedbackForm');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const feedback = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    event: formData.get('event'),
+                    rating: currentRating,
+                    comment: formData.get('feedback')
+                };
+
+                // In a real application, this would be sent to a server
+                console.log('Feedback submitted:', feedback);
+                alert('Cảm ơn bạn đã gửi phản hồi! Chúng tôi sẽ xem xét và cải thiện dịch vụ.');
+                
+                resetForm();
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('feedbackForm').reset();
+            setRating(0);
+        }
+
+        function renderRecentFeedback() {
+            const container = document.getElementById('recentFeedback');
+            
+            container.innerHTML = feedbackData.map(feedback => `
+                <div class="bg-card p-6 rounded-lg shadow">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="font-semibold">${feedback.name}</h3>
+                            <p class="text-sm text-muted-foreground">${feedback.event}</p>
+                        </div>
+                        <div class="flex text-yellow-400">
+                            ${'★'.repeat(feedback.rating)}${'☆'.repeat(5 - feedback.rating)}
+                        </div>
+                    </div>
+                    <p class="text-muted-foreground mb-2">${feedback.comment}</p>
+                    <p class="text-xs text-muted-foreground">${new Date(feedback.date).toLocaleDateString('vi-VN')}</p>
+                </div>
+            `).join('');
+        }
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', () => {
+            showPage('home');
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const menuButton = e.target.closest('button');
+                
+                if (!mobileMenu.contains(e.target) && !menuButton) {
+                    mobileMenu.classList.remove('open');
+                }
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('imageModal').addEventListener('click', (e) => {
+                if (e.target === e.currentTarget) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
