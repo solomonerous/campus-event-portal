@@ -130,6 +130,55 @@ npm run build
 
 The built files will be available in the `build` directory.
 
+### Preview Production Build
+
+```bash
+npm run preview
+```
+
+This will start a local server to preview the production build.
+
+## 🚀 GitHub Pages Deployment
+
+This project is configured for automatic deployment to GitHub Pages. Follow these steps to set up deployment:
+
+### 1. Enable GitHub Pages
+
+1. Go to your repository on GitHub
+2. Navigate to **Settings** → **Pages**
+3. Under **Source**, select **GitHub Actions**
+4. The workflow will automatically deploy when you push to the `main` branch
+
+### 2. Repository Configuration
+
+The project is configured to deploy to GitHub Pages with the following setup:
+
+- **Base URL**: `/campus-event-portal/` (for production builds)
+- **Build Directory**: `build`
+- **Workflow File**: `.github/workflows/deploy.yml`
+
+### 3. Custom Domain (Optional)
+
+If you want to use a custom domain:
+
+1. Add a `CNAME` file to the `public` directory with your domain name
+2. Configure your domain's DNS settings to point to GitHub Pages
+3. Update the `base` setting in `vite.config.ts` to `/` instead of `/campus-event-portal/`
+
+### 4. Manual Deployment
+
+The deployment happens automatically on every push to the `main` branch. You can also trigger it manually:
+
+1. Go to **Actions** tab in your GitHub repository
+2. Select **Deploy to GitHub Pages** workflow
+3. Click **Run workflow**
+
+### 5. Access Your Site
+
+Once deployed, your site will be available at:
+- **GitHub Pages URL**: `https://yourusername.github.io/campus-event-portal/`
+- **Custom Domain**: `https://yourdomain.com` (if configured)
+
 ## 📊 Data Structure
 
 ### Events Data (`src/data/events.json`)
@@ -220,6 +269,14 @@ The project uses Vite for building and development. Key configurations:
 - **Build Target**: ESNext
 - **Output Directory**: build
 - **Auto-open**: Browser opens automatically on dev start
+- **Base URL**: Automatically configured for GitHub Pages deployment
+
+### GitHub Actions Workflow
+The project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that:
+- Triggers on pushes to the `main` branch
+- Builds the project using Node.js 18
+- Deploys to GitHub Pages automatically
+- Uses the latest GitHub Actions for optimal performance
 
 ### Environment Variables
 Create a `.env` file in the root directory for environment-specific configurations:

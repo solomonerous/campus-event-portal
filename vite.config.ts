@@ -5,6 +5,7 @@
 
   export default defineConfig({
     plugins: [react()],
+    base: process.env.NODE_ENV === 'production' ? '/campus-event-portal/' : '/',
     resolve: {
       extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
       alias: {
