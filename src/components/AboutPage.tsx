@@ -7,45 +7,45 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 export function AboutPage() {
   const annualEvents = [
     {
-      category: 'Học thuật',
+      category: 'Academic',
       icon: BookOpen,
       color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
       events: [
-        { name: 'TechFest', time: 'Tháng 7', description: 'Triển lãm công nghệ và dự án sinh viên' },
-        { name: 'Hackathon', time: 'Tháng 9', description: 'Cuộc thi lập trình 48 giờ' },
-        { name: 'Hội thảo AI', time: 'Tháng 12', description: 'Hội thảo về trí tuệ nhân tạo' },
-        { name: 'Ngày hội việc làm', time: 'Tháng 4', description: 'Kết nối sinh viên với doanh nghiệp' }
+        { name: 'TechFest', time: 'July', description: 'Technology exhibition and student projects' },
+        { name: 'Hackathon', time: 'September', description: '48-hour programming competition' },
+        { name: 'AI Workshop', time: 'December', description: 'Artificial intelligence workshop' },
+        { name: 'Career Fair', time: 'April', description: 'Connecting students with businesses' }
       ]
     },
     {
-      category: 'Văn hóa',
+      category: 'Cultural',
       icon: Palette,
       color: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
       events: [
-        { name: 'Tuần lễ Văn hóa', time: 'Tháng 8', description: 'Lễ hội văn hóa đa dạng các dân tộc' },
-        { name: 'Đêm nhạc Acoustic', time: 'Tháng 11', description: 'Chương trình âm nhạc sinh viên' },
-        { name: 'Lễ khai giảng', time: 'Tháng 9', description: 'Lễ chào đón sinh viên mới' },
-        { name: 'Ngày hội tình nguyện', time: 'Tháng 5', description: 'Các hoạt động tình nguyện cộng đồng' }
+        { name: 'Cultural Week', time: 'August', description: 'Diverse multicultural festival' },
+        { name: 'Acoustic Night', time: 'November', description: 'Student music program' },
+        { name: 'Opening Ceremony', time: 'September', description: 'Welcome ceremony for new students' },
+        { name: 'Volunteer Day', time: 'May', description: 'Community volunteer activities' }
       ]
     },
     {
-      category: 'Thể thao',
+      category: 'Sports',
       icon: Trophy,
       color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
       events: [
-        { name: 'Giải bóng đá liên khoa', time: 'Tháng 3', description: 'Giải đấu thể thao lớn nhất trường' },
-        { name: 'Marathon thường niên', time: 'Tháng 10', description: 'Giải chạy bộ cho cộng đồng' },
-        { name: 'Đại hội thể thao', time: 'Tháng 6', description: 'Thi đấu đa môn thể thao' },
-        { name: 'Giải bóng chuyền', time: 'Tháng 2', description: 'Giải đấu bóng chuyền sinh viên' }
+        { name: 'Inter-Faculty Football', time: 'March', description: 'Largest sports tournament in university' },
+        { name: 'Annual Marathon', time: 'October', description: 'Community running event' },
+        { name: 'Sports Festival', time: 'June', description: 'Multi-sport competition' },
+        { name: 'Volleyball Tournament', time: 'February', description: 'Student volleyball competition' }
       ]
     }
   ];
 
   const achievements = [
-    { title: 'Top 10', description: 'Trường đại học công nghệ hàng đầu Việt Nam' },
-    { title: '50,000+', description: 'Sinh viên đã tốt nghiệp' },
-    { title: '200+', description: 'Sự kiện được tổ chức hàng năm' },
-    { title: '15', description: 'Năm kinh nghiệm tổ chức sự kiện' }
+    { title: 'Top 10', description: 'Leading technology university in Vietnam' },
+    { title: '50,000+', description: 'Graduated students' },
+    { title: '200+', description: 'Events organized annually' },
+    { title: '15', description: 'Years of event organization experience' }
   ];
 
   return (
@@ -53,10 +53,10 @@ export function AboutPage() {
       <div className="container mx-auto px-4">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Về CampusConnect</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">About CampusConnect</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Khám phá câu chuyện của chúng tôi, sứ mệnh và những thành tựu đã đạt được 
-            trong việc xây dựng cộng đồng học tập năng động tại Trường Đại học Kỹ thuật ABC.
+            Discover our story, mission, and achievements in building a dynamic 
+            learning community at ABC Technical University.
           </p>
         </div>
 
@@ -64,23 +64,24 @@ export function AboutPage() {
         <section className="mb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">Trường Đại học Kỹ thuật ABC</h2>
+              <h2 className="text-3xl font-bold mb-6">ABC Technical University</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Được thành lập vào năm 2009, Trường Đại học Kỹ thuật ABC là một trong những 
-                  trường đại học hàng đầu Việt Nam trong lĩnh vực công nghệ và kỹ thuật. 
-                  Với sứ mệnh đào tạo những kỹ sư tài năng, chúng tôi luôn cam kết mang đến 
-                  môi trường học tập chất lượng cao và hiện đại.
+                  Established in 2009, ABC Technical University is one of Vietnam's leading 
+                  universities in technology and engineering. With a mission to train talented 
+                  engineers, we are committed to providing a high-quality and modern learning 
+                  environment.
                 </p>
                 <p>
-                  Trường hiện có hơn 15,000 sinh viên đang theo học với đội ngũ giảng viên 
-                  giàu kinh nghiệm và nhiệt huyết. Chúng tôi tự hào là nơi kết nối tri thức 
-                  với thực tiễn, giúp sinh viên phát triển toàn diện cả về chuyên môn và kỹ năng mềm.
+                  The university currently has over 15,000 students with experienced and 
+                  passionate faculty members. We pride ourselves on being a place that connects 
+                  knowledge with practice, helping students develop comprehensively in both 
+                  professional and soft skills.
                 </p>
                 <p>
-                  CampusConnect ra đời như một cầu nối quan trọng, giúp sinh viên dễ dàng 
-                  tiếp cận và tham gia vào các hoạt động học thuật, văn hóa và thể thao, 
-                  từ đó tạo nên một cộng đồng học tập sôi động và gắn kết.
+                  CampusConnect was born as an important bridge, helping students easily 
+                  access and participate in academic, cultural, and sports activities, 
+                  thereby creating a dynamic and cohesive learning community.
                 </p>
               </div>
             </div>
@@ -107,9 +108,9 @@ export function AboutPage() {
         {/* Annual Events */}
         <section className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Sự kiện thường niên</h2>
+            <h2 className="text-3xl font-bold mb-4">Annual Events</h2>
             <p className="text-lg text-muted-foreground">
-              Khám phá các hoạt động đa dạng được tổ chức quanh năm tại trường
+              Explore diverse activities organized throughout the year at the university
             </p>
           </div>
 
@@ -126,7 +127,7 @@ export function AboutPage() {
                       <div>
                         <CardTitle className="text-xl">{eventGroup.category}</CardTitle>
                         <CardDescription>
-                          Các sự kiện và hoạt động thuộc nhóm {eventGroup.category.toLowerCase()}
+                          Events and activities in the {eventGroup.category.toLowerCase()} category
                         </CardDescription>
                       </div>
                     </div>
@@ -155,49 +156,49 @@ export function AboutPage() {
         {/* Organizing Bodies */}
         <section className="mb-16">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Đơn vị tổ chức</h2>
+            <h2 className="text-3xl font-bold mb-4">Organizing Bodies</h2>
             <p className="text-lg text-muted-foreground">
-              Các phòng ban và tổ chức phụ trách tổ chức sự kiện tại trường
+              Departments and organizations responsible for organizing events at the university
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                name: 'Phòng Công tác sinh viên',
-                role: 'Phụ trách tổng thể các hoạt động sinh viên',
+                name: 'Student Affairs Office',
+                role: 'Overall management of student activities',
                 icon: Users,
-                responsibilities: ['Quản lý hoạt động sinh viên', 'Tổ chức sự kiện lớn', 'Hỗ trợ đoàn thể']
+                responsibilities: ['Student activity management', 'Large event organization', 'Student organization support']
               },
               {
-                name: 'Hội sinh viên',
-                role: 'Đại diện sinh viên trong các hoạt động',
+                name: 'Student Union',
+                role: 'Student representation in activities',
                 icon: Award,
-                responsibilities: ['Tổ chức hoạt động văn hóa', 'Kết nối sinh viên', 'Phản biện chính sách']
+                responsibilities: ['Cultural activity organization', 'Student networking', 'Policy feedback']
               },
               {
-                name: 'Phòng Đào tạo',
-                role: 'Phụ trách các sự kiện học thuật',
+                name: 'Training Department',
+                role: 'Academic event management',
                 icon: BookOpen,
-                responsibilities: ['Hội thảo khoa học', 'Cuộc thi học thuật', 'Kết nối doanh nghiệp']
+                responsibilities: ['Scientific seminars', 'Academic competitions', 'Business connections']
               },
               {
-                name: 'Phòng Thể dục thể thao',
-                role: 'Tổ chức các hoạt động thể thao',
+                name: 'Physical Education Department',
+                role: 'Sports activity organization',
                 icon: Trophy,
-                responsibilities: ['Giải đấu thể thao', 'Hoạt động rèn luyện', 'Thi đấu liên trường']
+                responsibilities: ['Sports tournaments', 'Fitness activities', 'Inter-university competitions']
               },
               {
-                name: 'Các Khoa chuyên môn',
-                role: 'Tổ chức sự kiện theo chuyên ngành',
+                name: 'Academic Faculties',
+                role: 'Specialized field event organization',
                 icon: Calendar,
-                responsibilities: ['Sự kiện chuyên ngành', 'Workshop kỹ thuật', 'Thực tập doanh nghiệp']
+                responsibilities: ['Field-specific events', 'Technical workshops', 'Business internships']
               },
               {
-                name: 'Đoàn thanh niên',
-                role: 'Hoạt động tình nguyện và xã hội',
+                name: 'Youth Union',
+                role: 'Volunteer and social activities',
                 icon: Users,
-                responsibilities: ['Hoạt động tình nguyện', 'Chương trình xã hội', 'Giáo dục đạo đức']
+                responsibilities: ['Volunteer activities', 'Social programs', 'Moral education']
               }
             ].map((org, index) => {
               const Icon = org.icon;
@@ -233,32 +234,32 @@ export function AboutPage() {
         {/* Mission & Vision */}
         <section className="bg-muted/30 rounded-lg p-8 md:p-12">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Sứ mệnh & Tầm nhìn</h2>
+            <h2 className="text-3xl font-bold mb-4">Mission & Vision</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl text-center">Sứ mệnh</CardTitle>
+                <CardTitle className="text-xl text-center">Mission</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground">
-                  Tạo ra một nền tảng kết nối hiệu quả, giúp sinh viên dễ dàng tiếp cận 
-                  và tham gia vào các hoạt động học tập, nghiên cứu, văn hóa và thể thao, 
-                  từ đó phát triển toàn diện về kiến thức và kỹ năng.
+                  Create an effective connection platform that helps students easily access 
+                  and participate in academic, research, cultural and sports activities, 
+                  thereby developing comprehensively in knowledge and skills.
                 </p>
               </CardContent>
             </Card>
             
             <Card>
               <CardHeader>
-                <CardTitle className="text-xl text-center">Tầm nhìn</CardTitle>
+                <CardTitle className="text-xl text-center">Vision</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <p className="text-muted-foreground">
-                  Trở thành nền tảng số hàng đầu trong việc kết nối cộng đồng giáo dục, 
-                  góp phần xây dựng một môi trường học tập năng động, sáng tạo và 
-                  thúc đẩy sự phát triển bền vững của sinh viên.
+                  Become the leading digital platform in connecting educational communities, 
+                  contributing to building a dynamic, creative learning environment and 
+                  promoting sustainable student development.
                 </p>
               </CardContent>
             </Card>

@@ -4,8 +4,9 @@ import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
-import { Calendar, MapPin, Clock, Filter, SortAsc } from 'lucide-react';
+import { Calendar, MapPin, Clock, Filter, SortAsc, UserPlus } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
+import { EventCountdown } from './EventCountdown';
 
 interface Event {
   id: number;
@@ -16,9 +17,14 @@ interface Event {
   category: string;
   shortDescription: string;
   image: string;
+  registrationOpen?: boolean;
 }
 
-export function EventsPage() {
+interface EventsPageProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function EventsPage({ onNavigate }: EventsPageProps = {}) {
   const [upcomingEvents, setUpcomingEvents] = useState<Event[]>([]);
   const [pastEvents, setPastEvents] = useState<Event[]>([]);
   const [filteredUpcoming, setFilteredUpcoming] = useState<Event[]>([]);
@@ -35,61 +41,65 @@ export function EventsPage() {
           title: "TechFest 2025",
           date: "2025-07-20",
           time: "10:00 - 16:00",
-          location: "Phòng hội thảo chính",
+          location: "Main Conference Hall",
           category: "academic",
-          shortDescription: "Triển lãm công nghệ thường niên với các dự án sáng tạo từ sinh viên và workshop từ các chuyên gia trong ngành.",
-          image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800"
+          shortDescription: "Annual technology exhibition featuring innovative student projects and workshops by industry experts.",
+          image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
+          registrationOpen: true
         },
         {
           id: 2,
-          title: "Tuần lễ Văn hóa",
+          title: "Cultural Week",
           date: "2025-08-05",
           time: "09:00 - 18:00",
-          location: "Sân vận động trường",
+          location: "University Stadium",
           category: "cultural",
-          shortDescription: "Lễ hội văn hóa đa dạng với các hoạt động biểu diễn, ẩm thực và trưng bày truyền thống.",
-          image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800"
+          shortDescription: "Diverse cultural festival with performances, traditional food, and cultural exhibitions.",
+          image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800",
+          registrationOpen: true
         },
         {
           id: 3,
           title: "Hackathon 2025",
           date: "2025-07-15",
           time: "08:00 - 20:00",
-          location: "Phòng lab 302",
+          location: "Lab Room 302",
           category: "academic",
-          shortDescription: "Cuộc thi lập trình 48 giờ với giải thưởng hấp dẫn và cơ hội thực tập tại các công ty công nghệ.",
-          image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800"
+          shortDescription: "48-hour programming competition with attractive prizes and internship opportunities at tech companies.",
+          image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800",
+          registrationOpen: true
         },
         {
           id: 4,
-          title: "Giải bóng đá liên khoa",
+          title: "Rector's Cup Football Tournament",
           date: "2025-09-10",
           time: "15:00 - 17:00",
-          location: "Sân bóng đá trường",
+          location: "University Football Field",
           category: "sports",
-          shortDescription: "Giải đấu thường niên giữa các khoa với tinh thần thể thao cao và nhiều hoạt động cổ vũ.",
-          image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800"
+          shortDescription: "Annual football tournament between faculties with high sportsmanship and many cheering activities.",
+          image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800",
+          registrationOpen: true
         }
       ],
       pastEvents: [
         {
           id: 5,
-          title: "Hội thảo AI 2024",
+          title: "AI Workshop 2024",
           date: "2024-12-15",
           time: "14:00 - 17:00",
-          location: "Hội trường A",
+          location: "Conference Hall A",
           category: "academic",
-          shortDescription: "Hội thảo về trí tuệ nhân tạo với sự tham gia của các chuyên gia hàng đầu.",
+          shortDescription: "Artificial intelligence workshop with participation from leading experts.",
           image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800"
         },
         {
           id: 6,
-          title: "Đêm nhạc acoustic",
+          title: "Acoustic Music Night",
           date: "2024-11-20",
           time: "19:00 - 22:00",
-          location: "Café sinh viên",
+          location: "Student Café",
           category: "cultural",
-          shortDescription: "Đêm nhạc với sự biểu diễn của các ban nhạc sinh viên trong không gian ấm cúng.",
+          shortDescription: "Music night featuring performances by student bands in a cozy atmosphere.",
           image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800"
         }
       ]
@@ -137,7 +147,7 @@ export function EventsPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
+    return date.toLocaleDateString('en-US', {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
@@ -156,9 +166,9 @@ export function EventsPage() {
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
-      case 'academic': return 'Học thuật';
-      case 'cultural': return 'Văn hóa';
-      case 'sports': return 'Thể thao';
+      case 'academic': return 'Academic';
+      case 'cultural': return 'Cultural';
+      case 'sports': return 'Sports';
       default: return category;
     }
   };
@@ -192,15 +202,28 @@ export function EventsPage() {
             {event.location}
           </div>
         </div>
+        
+        {/* Countdown Timer */}
+        <div className="mt-4 p-3 bg-muted/50 rounded-lg">
+          <EventCountdown eventDate={event.date} eventTime={event.time} />
+        </div>
       </CardHeader>
       
       <CardContent>
         <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
           {event.shortDescription}
         </p>
-        <Button variant="outline" size="sm" className="w-full">
-          Xem chi tiết
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" className="flex-1">
+            View Details
+          </Button>
+          {event.registrationOpen && onNavigate && (
+            <Button size="sm" onClick={() => onNavigate('register')} className="flex-1">
+              <UserPlus className="h-4 w-4 mr-1" />
+              Register
+            </Button>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
@@ -210,10 +233,10 @@ export function EventsPage() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Lịch sự kiện</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Events Calendar</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Khám phá và tham gia các sự kiện thú vị tại trường. 
-            Từ các hoạt động học thuật đến văn hóa và thể thao.
+            Discover and participate in exciting events at the university. 
+            From academic activities to cultural and sports events.
           </p>
         </div>
 
@@ -221,32 +244,32 @@ export function EventsPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-muted/30 rounded-lg">
           <div className="flex items-center space-x-2">
             <Filter className="h-4 w-4" />
-            <span className="text-sm font-medium">Lọc theo:</span>
+            <span className="text-sm font-medium">Filter by:</span>
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Danh mục" />
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="academic">Học thuật</SelectItem>
-                <SelectItem value="cultural">Văn hóa</SelectItem>
-                <SelectItem value="sports">Thể thao</SelectItem>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="academic">Academic</SelectItem>
+                <SelectItem value="cultural">Cultural</SelectItem>
+                <SelectItem value="sports">Sports</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex items-center space-x-2">
             <SortAsc className="h-4 w-4" />
-            <span className="text-sm font-medium">Sắp xếp:</span>
+            <span className="text-sm font-medium">Sort by:</span>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Sắp xếp" />
+                <SelectValue placeholder="Sort" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="date">Ngày (gần nhất)</SelectItem>
-                <SelectItem value="date-desc">Ngày (xa nhất)</SelectItem>
-                <SelectItem value="name">Tên A-Z</SelectItem>
-                <SelectItem value="category">Danh mục</SelectItem>
+                <SelectItem value="date">Date (Nearest)</SelectItem>
+                <SelectItem value="date-desc">Date (Farthest)</SelectItem>
+                <SelectItem value="name">Name A-Z</SelectItem>
+                <SelectItem value="category">Category</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -254,7 +277,7 @@ export function EventsPage() {
           <div className="flex-1" />
 
           <div className="text-sm text-muted-foreground flex items-center">
-            Tổng: {filteredUpcoming.length + filteredPast.length} sự kiện
+            Total: {filteredUpcoming.length + filteredPast.length} events
           </div>
         </div>
 
@@ -263,11 +286,11 @@ export function EventsPage() {
           <TabsList className="grid w-full grid-cols-2 lg:w-400 mx-auto">
             <TabsTrigger value="upcoming" className="flex items-center space-x-2">
               <Calendar className="h-4 w-4" />
-              <span>Sắp tới ({filteredUpcoming.length})</span>
+              <span>Upcoming ({filteredUpcoming.length})</span>
             </TabsTrigger>
             <TabsTrigger value="past" className="flex items-center space-x-2">
               <Clock className="h-4 w-4" />
-              <span>Đã diễn ra ({filteredPast.length})</span>
+              <span>Past Events ({filteredPast.length})</span>
             </TabsTrigger>
           </TabsList>
 
@@ -281,11 +304,11 @@ export function EventsPage() {
             ) : (
               <div className="text-center py-12">
                 <Calendar className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Không có sự kiện nào</h3>
+                <h3 className="text-lg font-semibold mb-2">No Events Found</h3>
                 <p className="text-muted-foreground">
                   {categoryFilter === 'all' 
-                    ? 'Hiện tại chưa có sự kiện sắp tới nào.' 
-                    : `Không có sự kiện ${getCategoryLabel(categoryFilter).toLowerCase()} nào sắp tới.`}
+                    ? 'No upcoming events at the moment.' 
+                    : `No upcoming ${getCategoryLabel(categoryFilter).toLowerCase()} events.`}
                 </p>
               </div>
             )}
@@ -301,11 +324,11 @@ export function EventsPage() {
             ) : (
               <div className="text-center py-12">
                 <Clock className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Không có sự kiện nào</h3>
+                <h3 className="text-lg font-semibold mb-2">No Events Found</h3>
                 <p className="text-muted-foreground">
                   {categoryFilter === 'all' 
-                    ? 'Chưa có sự kiện nào đã diễn ra.' 
-                    : `Không có sự kiện ${getCategoryLabel(categoryFilter).toLowerCase()} nào đã diễn ra.`}
+                    ? 'No past events to display.' 
+                    : `No past ${getCategoryLabel(categoryFilter).toLowerCase()} events.`}
                 </p>
               </div>
             )}
@@ -314,25 +337,25 @@ export function EventsPage() {
 
         {/* Category Overview */}
         <section className="mt-16 p-8 bg-muted/30 rounded-lg">
-          <h2 className="text-2xl font-bold text-center mb-8">Danh mục sự kiện</h2>
+          <h2 className="text-2xl font-bold text-center mb-8">Event Categories</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 category: 'academic',
-                title: 'Sự kiện học thuật',
-                description: 'Hội thảo, cuộc thi, triển lãm công nghệ và các hoạt động nghiên cứu khoa học.',
+                title: 'Academic Events',
+                description: 'Workshops, competitions, technology exhibitions and scientific research activities.',
                 icon: '🎓'
               },
               {
                 category: 'cultural',
-                title: 'Sự kiện văn hóa',
-                description: 'Chương trình văn nghệ, lễ hội, triển lãm nghệ thuật và các hoạt động văn hóa.',
+                title: 'Cultural Events',
+                description: 'Arts programs, festivals, art exhibitions and cultural activities.',
                 icon: '🎭'
               },
               {
                 category: 'sports',
-                title: 'Sự kiện thể thao',
-                description: 'Giải đấu thể thao, hoạt động rèn luyện sức khỏe và thi đấu liên trường.',
+                title: 'Sports Events',
+                description: 'Sports tournaments, fitness activities and inter-university competitions.',
                 icon: '🏆'
               }
             ].map((cat, index) => (
@@ -345,7 +368,7 @@ export function EventsPage() {
                 <CardContent>
                   <p className="text-sm text-muted-foreground">{cat.description}</p>
                   <Button variant="outline" size="sm" className="mt-4">
-                    Xem sự kiện
+                    View Events
                   </Button>
                 </CardContent>
               </Card>

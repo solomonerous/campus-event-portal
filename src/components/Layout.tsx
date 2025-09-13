@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
-import { Menu, Home, Info, Calendar, Image, MessageSquare, Phone } from 'lucide-react';
+import { Menu, Home, Info, Calendar, Image, UserPlus, Phone } from 'lucide-react';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,12 +13,12 @@ export function Layout({ children, currentPage, onPageChange }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
-    { id: 'home', label: 'Trang chủ', icon: Home },
-    { id: 'about', label: 'Giới thiệu', icon: Info },
-    { id: 'events', label: 'Lịch sự kiện', icon: Calendar },
-    { id: 'gallery', label: 'Thư viện ảnh', icon: Image },
-    { id: 'feedback', label: 'Phản hồi', icon: MessageSquare },
-    { id: 'contact', label: 'Liên hệ', icon: Phone },
+    { id: 'home', label: 'Home', icon: Home },
+    { id: 'about', label: 'About', icon: Info },
+    { id: 'events', label: 'Events', icon: Calendar },
+    { id: 'gallery', label: 'Gallery', icon: Image },
+    { id: 'register', label: 'Register', icon: UserPlus },
+    { id: 'contact', label: 'Contact', icon: Phone },
   ];
 
   const handleNavigation = (pageId: string) => {
@@ -39,7 +39,7 @@ export function Layout({ children, currentPage, onPageChange }: LayoutProps) {
               </div>
               <div>
                 <h1 className="text-lg font-semibold">CampusConnect</h1>
-                <p className="text-xs text-muted-foreground">Trung tâm sự kiện</p>
+                <p className="text-xs text-muted-foreground">Event Hub</p>
               </div>
             </div>
 
@@ -104,11 +104,11 @@ export function Layout({ children, currentPage, onPageChange }: LayoutProps) {
             <div>
               <h3 className="font-semibold mb-4">CampusConnect</h3>
               <p className="text-sm text-muted-foreground">
-                Nền tảng kết nối sinh viên với các sự kiện và hoạt động tại trường Đại học Kỹ thuật ABC.
+                A platform connecting students with events and activities at ABC Technical University.
               </p>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Liên kết nhanh</h3>
+              <h3 className="font-semibold mb-4">Quick Links</h3>
               <div className="space-y-2">
                 {menuItems.slice(0, 4).map((item) => (
                   <button
@@ -122,11 +122,11 @@ export function Layout({ children, currentPage, onPageChange }: LayoutProps) {
               </div>
             </div>
             <div>
-              <h3 className="font-semibold mb-4">Thông tin liên hệ</h3>
+              <h3 className="font-semibold mb-4">Contact Information</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>123 Đường Đại học, Quận Cầu Giấy, Hà Nội</p>
+                <p>123 University Street, Cau Giay District, Hanoi</p>
                 <p>Email: info@university.edu.vn</p>
-                <p>Điện thoại: 024 1234 5678</p>
+                <p>Phone: 024 1234 5678</p>
               </div>
             </div>
           </div>

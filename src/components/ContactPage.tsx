@@ -31,48 +31,48 @@ export function ContactPage() {
       staff: [
         {
           id: 1,
-          name: "PGS.TS. Nguyễn Văn An",
-          title: "Trưởng phòng Công tác sinh viên",
-          department: "Phòng CTSV",
+          name: "Assoc. Prof. Dr. Nguyen Van An",
+          title: "Director of Student Affairs",
+          department: "Student Affairs Office",
           phone: "0123 456 789",
           email: "nguyen.van.an@university.edu.vn"
         },
         {
           id: 2,
-          name: "ThS. Trần Thị Bình",
-          title: "Phụ trách hoạt động văn hóa",
-          department: "Khoa Kỹ thuật",
+          name: "M.A. Tran Thi Binh",
+          title: "Cultural Activities Coordinator",
+          department: "Faculty of Engineering",
           phone: "0123 456 790",
           email: "tran.thi.binh@university.edu.vn"
         },
         {
           id: 3,
-          name: "TS. Lê Minh Cường",
-          title: "Điều phối viên sự kiện học thuật",
-          department: "Khoa Công nghệ thông tin",
+          name: "Dr. Le Minh Cuong",
+          title: "Academic Events Coordinator",
+          department: "Faculty of Information Technology",
           phone: "0123 456 791",
           email: "le.minh.cuong@university.edu.vn"
         },
         {
           id: 4,
-          name: "ThS. Phạm Thị Dung",
-          title: "Quản lý hoạt động thể thao",
-          department: "Phòng Thể dục thể thao",
+          name: "M.A. Pham Thi Dung",
+          title: "Sports Activities Manager",
+          department: "Physical Education Department",
           phone: "0123 456 792",
           email: "pham.thi.dung@university.edu.vn"
         },
         {
           id: 5,
-          name: "Nguyễn Thanh Hải",
-          title: "Điều phối viên sinh viên",
-          department: "Hội sinh viên",
+          name: "Nguyen Thanh Hai",
+          title: "Student Coordinator",
+          department: "Student Union",
           phone: "0123 456 793",
           email: "nguyen.thanh.hai@university.edu.vn"
         }
       ],
       university: {
-        name: "Trường Đại học Kỹ thuật ABC",
-        address: "123 Đường Đại học, Quận Cầu Giấy, Hà Nội",
+        name: "ABC Technical University",
+        address: "123 University Street, Cau Giay District, Hanoi",
         phone: "024 1234 5678",
         email: "info@university.edu.vn",
         website: "www.university.edu.vn"
@@ -84,11 +84,11 @@ export function ContactPage() {
   }, []);
 
   const getDepartmentColor = (department: string) => {
-    if (department.includes('CTSV')) return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
-    if (department.includes('Kỹ thuật')) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-    if (department.includes('Công nghệ')) return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-    if (department.includes('Thể thao')) return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
-    if (department.includes('Hội sinh viên')) return 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200';
+    if (department.includes('Student Affairs')) return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
+    if (department.includes('Engineering')) return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+    if (department.includes('Information Technology')) return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
+    if (department.includes('Physical Education')) return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+    if (department.includes('Student Union')) return 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200';
     return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
   };
 
@@ -97,10 +97,10 @@ export function ContactPage() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Liên hệ</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Thông tin liên hệ của các giảng viên, điều phối viên và vị trí trường học. 
-            Chúng tôi luôn sẵn sàng hỗ trợ bạn.
+            Contact information for faculty, coordinators, and university location. 
+            We are always ready to assist you.
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export function ContactPage() {
                   <span>{university.name}</span>
                 </CardTitle>
                 <CardDescription className="text-primary-foreground/80">
-                  Thông tin chung về trường đại học
+                  General university information
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
@@ -122,14 +122,14 @@ export function ContactPage() {
                   <div className="flex items-start space-x-3">
                     <MapPin className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <div className="font-medium mb-1">Địa chỉ</div>
+                      <div className="font-medium mb-1">Address</div>
                       <div className="text-sm text-muted-foreground">{university.address}</div>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
                     <Phone className="h-5 w-5 text-primary mt-1" />
                     <div>
-                      <div className="font-medium mb-1">Điện thoại</div>
+                      <div className="font-medium mb-1">Phone</div>
                       <div className="text-sm text-muted-foreground">{university.phone}</div>
                     </div>
                   </div>
@@ -156,9 +156,9 @@ export function ContactPage() {
         {/* Staff Contacts */}
         <section className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Đội ngũ tổ chức sự kiện</h2>
+            <h2 className="text-3xl font-bold mb-4">Event Organization Team</h2>
             <p className="text-lg text-muted-foreground">
-              Thông tin liên hệ của các giảng viên và điều phối viên phụ trách tổ chức sự kiện
+              Contact information for faculty and coordinators responsible for event organization
             </p>
           </div>
 
@@ -190,7 +190,7 @@ export function ContactPage() {
                   </div>
                   <div className="pt-2">
                     <Button variant="outline" size="sm" className="w-full">
-                      Gửi email
+                      Send Email
                     </Button>
                   </div>
                 </CardContent>
@@ -202,9 +202,9 @@ export function ContactPage() {
         {/* Google Maps */}
         <section className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Vị trí trường học</h2>
+            <h2 className="text-3xl font-bold mb-4">University Location</h2>
             <p className="text-lg text-muted-foreground">
-              Tìm đường đến trường và các địa điểm tổ chức sự kiện
+              Find directions to the university and event venues
             </p>
           </div>
 
@@ -226,26 +226,26 @@ export function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="text-center">
                     <MapPin className="h-8 w-8 mx-auto text-primary mb-2" />
-                    <h3 className="font-semibold mb-1">Địa chỉ chính</h3>
+                    <h3 className="font-semibold mb-1">Main Address</h3>
                     <p className="text-sm text-muted-foreground">
-                      123 Đường Đại học<br />
-                      Quận Cầu Giấy, Hà Nội
+                      123 University Street<br />
+                      Cau Giay District, Hanoi
                     </p>
                   </div>
                   <div className="text-center">
                     <Clock className="h-8 w-8 mx-auto text-primary mb-2" />
-                    <h3 className="font-semibold mb-1">Giờ làm việc</h3>
+                    <h3 className="font-semibold mb-1">Working Hours</h3>
                     <p className="text-sm text-muted-foreground">
-                      Thứ 2 - Thứ 6: 8:00 - 17:00<br />
-                      Thứ 7: 8:00 - 12:00
+                      Monday - Friday: 8:00 - 17:00<br />
+                      Saturday: 8:00 - 12:00
                     </p>
                   </div>
                   <div className="text-center">
                     <Building2 className="h-8 w-8 mx-auto text-primary mb-2" />
-                    <h3 className="font-semibold mb-1">Phòng ban</h3>
+                    <h3 className="font-semibold mb-1">Departments</h3>
                     <p className="text-sm text-muted-foreground">
-                      Phòng CTSV: Tầng 2, Tòa A<br />
-                      Hội trường: Tầng 1, Tòa B
+                      Student Affairs: 2nd Floor, Building A<br />
+                      Main Hall: 1st Floor, Building B
                     </p>
                   </div>
                 </div>
@@ -257,36 +257,36 @@ export function ContactPage() {
         {/* Quick Contact */}
         <section className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Liên hệ nhanh</h2>
+            <h2 className="text-3xl font-bold mb-4">Quick Contact</h2>
             <p className="text-lg text-muted-foreground">
-              Các thông tin liên hệ theo từng loại sự kiện
+              Contact information by event type
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
-                title: 'Sự kiện học thuật',
-                description: 'Hội thảo, cuộc thi, workshop',
-                contact: 'TS. Lê Minh Cường',
+                title: 'Academic Events',
+                description: 'Workshops, competitions, seminars',
+                contact: 'Dr. Le Minh Cuong',
                 phone: '0123 456 791',
                 email: 'le.minh.cuong@university.edu.vn',
                 icon: '🎓',
                 color: 'border-blue-200 bg-blue-50'
               },
               {
-                title: 'Sự kiện văn hóa',
-                description: 'Văn nghệ, lễ hội, triển lãm',
-                contact: 'ThS. Trần Thị Bình',
+                title: 'Cultural Events',
+                description: 'Arts, festivals, exhibitions',
+                contact: 'M.A. Tran Thi Binh',
                 phone: '0123 456 790',
                 email: 'tran.thi.binh@university.edu.vn',
                 icon: '🎭',
                 color: 'border-purple-200 bg-purple-50'
               },
               {
-                title: 'Sự kiện thể thao',
-                description: 'Giải đấu, hoạt động thể thao',
-                contact: 'ThS. Phạm Thị Dung',
+                title: 'Sports Events',
+                description: 'Tournaments, sports activities',
+                contact: 'M.A. Pham Thi Dung',
                 phone: '0123 456 792',
                 email: 'pham.thi.dung@university.edu.vn',
                 icon: '🏆',
@@ -314,7 +314,7 @@ export function ContactPage() {
                     </div>
                   </div>
                   <Button variant="outline" size="sm" className="w-full">
-                    Liên hệ ngay
+                    Contact Now
                   </Button>
                 </CardContent>
               </Card>
@@ -325,30 +325,30 @@ export function ContactPage() {
         {/* Emergency Contact */}
         <section className="p-8 bg-muted/30 rounded-lg">
           <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold mb-4">Liên hệ khẩn cấp</h2>
+            <h2 className="text-2xl font-bold mb-4">Emergency Contact</h2>
             <p className="text-muted-foreground">
-              Trong trường hợp khẩn cấp hoặc sự cố xảy ra trong các sự kiện
+              In case of emergency or incidents during events
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <Card className="border-red-200 bg-red-50">
               <CardHeader className="text-center">
-                <CardTitle className="text-red-800">Hotline 24/7</CardTitle>
+                <CardTitle className="text-red-800">24/7 Hotline</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <div className="text-2xl font-bold text-red-800 mb-2">0123 456 999</div>
-                <p className="text-sm text-red-600">Hỗ trợ khẩn cấp trong các sự kiện</p>
+                <p className="text-sm text-red-600">Emergency support during events</p>
               </CardContent>
             </Card>
             
             <Card className="border-orange-200 bg-orange-50">
               <CardHeader className="text-center">
-                <CardTitle className="text-orange-800">Bảo vệ trường</CardTitle>
+                <CardTitle className="text-orange-800">Campus Security</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
                 <div className="text-2xl font-bold text-orange-800 mb-2">0123 456 888</div>
-                <p className="text-sm text-orange-600">An ninh và trật tự trong khuôn viên</p>
+                <p className="text-sm text-orange-600">Security and order on campus</p>
               </CardContent>
             </Card>
           </div>

@@ -34,47 +34,47 @@ export function GalleryPage() {
           year: "2023-24",
           category: "academic",
           url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
-          description: "Triển lãm công nghệ với nhiều dự án sáng tạo"
+          description: "Technology exhibition with many innovative projects"
         },
         {
           id: 2,
-          title: "Lễ khai giảng 2024",
+          title: "Opening Ceremony 2024",
           year: "2023-24",
           category: "cultural",
           url: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800",
-          description: "Lễ khai giảng năm học mới"
+          description: "New academic year opening ceremony"
         },
         {
           id: 3,
-          title: "Giải bóng đá 2024",
+          title: "Football Tournament 2024",
           year: "2023-24",
           category: "sports",
           url: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800",
-          description: "Trận chung kết giải bóng đá liên khoa"
+          description: "Inter-faculty football tournament final"
         },
         {
           id: 4,
-          title: "Workshop AI",
+          title: "AI Workshop",
           year: "2024-25",
           category: "academic",
           url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800",
-          description: "Workshop về trí tuệ nhân tạo"
+          description: "Artificial intelligence workshop"
         },
         {
           id: 5,
-          title: "Văn nghệ 2024",
+          title: "Cultural Festival 2024",
           year: "2023-24",
           category: "cultural",
           url: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
-          description: "Chương trình văn nghệ cuối năm"
+          description: "Year-end cultural program"
         },
         {
           id: 6,
-          title: "Ngày hội việc làm",
+          title: "Career Fair",
           year: "2024-25",
           category: "academic",
           url: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800",
-          description: "Ngày hội việc làm với nhiều doanh nghiệp tham gia"
+          description: "Career fair with many participating businesses"
         }
       ]
     };
@@ -109,9 +109,9 @@ export function GalleryPage() {
 
   const getCategoryLabel = (category: string) => {
     switch (category) {
-      case 'academic': return 'Học thuật';
-      case 'cultural': return 'Văn hóa';
-      case 'sports': return 'Thể thao';
+      case 'academic': return 'Academic';
+      case 'cultural': return 'Cultural';
+      case 'sports': return 'Sports';
       default: return category;
     }
   };
@@ -181,10 +181,10 @@ export function GalleryPage() {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Thư viện ảnh</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Photo Gallery</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Khám phá những khoảnh khắc đáng nhớ từ các sự kiện đã diễn ra tại trường. 
-            Từ học thuật đến văn hóa và thể thao.
+            Explore memorable moments from events held at the university. 
+            From academic to cultural and sports activities.
           </p>
         </div>
 
@@ -192,16 +192,16 @@ export function GalleryPage() {
         <div className="flex flex-col sm:flex-row gap-4 mb-8 p-4 bg-muted/30 rounded-lg">
           <div className="flex items-center space-x-2">
             <Filter className="h-4 w-4" />
-            <span className="text-sm font-medium">Lọc theo:</span>
+            <span className="text-sm font-medium">Filter by:</span>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4">
             <Select value={yearFilter} onValueChange={setYearFilter}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Năm học" />
+                <SelectValue placeholder="Academic Year" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tất cả năm</SelectItem>
+                <SelectItem value="all">All Years</SelectItem>
                 {getUniqueYears().map(year => (
                   <SelectItem key={year} value={year}>{year}</SelectItem>
                 ))}
@@ -210,13 +210,13 @@ export function GalleryPage() {
 
             <Select value={categoryFilter} onValueChange={setCategoryFilter}>
               <SelectTrigger className="w-40">
-                <SelectValue placeholder="Danh mục" />
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="academic">Học thuật</SelectItem>
-                <SelectItem value="cultural">Văn hóa</SelectItem>
-                <SelectItem value="sports">Thể thao</SelectItem>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="academic">Academic</SelectItem>
+                <SelectItem value="cultural">Cultural</SelectItem>
+                <SelectItem value="sports">Sports</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -225,17 +225,17 @@ export function GalleryPage() {
 
           <div className="text-sm text-muted-foreground flex items-center">
             <ImageIcon className="h-4 w-4 mr-1" />
-            {filteredImages.length} hình ảnh
+            {filteredImages.length} images
           </div>
         </div>
 
         {/* Gallery Tabs */}
         <Tabs defaultValue="all" className="space-y-8">
           <TabsList className="grid w-full grid-cols-4 lg:w-600 mx-auto">
-            <TabsTrigger value="all">Tất cả</TabsTrigger>
-            <TabsTrigger value="academic">Học thuật</TabsTrigger>
-            <TabsTrigger value="cultural">Văn hóa</TabsTrigger>
-            <TabsTrigger value="sports">Thể thao</TabsTrigger>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="academic">Academic</TabsTrigger>
+            <TabsTrigger value="cultural">Cultural</TabsTrigger>
+            <TabsTrigger value="sports">Sports</TabsTrigger>
           </TabsList>
 
           <TabsContent value="all" className="space-y-6">
@@ -248,9 +248,9 @@ export function GalleryPage() {
             ) : (
               <div className="text-center py-12">
                 <ImageIcon className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">Không có hình ảnh nào</h3>
+                <h3 className="text-lg font-semibold mb-2">No Images Found</h3>
                 <p className="text-muted-foreground">
-                  Không tìm thấy hình ảnh phù hợp với bộ lọc hiện tại.
+                  No images match the current filters.
                 </p>
               </div>
             )}
@@ -283,44 +283,44 @@ export function GalleryPage() {
 
         {/* Gallery Stats */}
         <section className="mt-16 p-8 bg-muted/30 rounded-lg">
-          <h2 className="text-2xl font-bold text-center mb-8">Thống kê thư viện</h2>
+          <h2 className="text-2xl font-bold text-center mb-8">Gallery Statistics</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-3xl font-bold text-primary mb-2">
                 {images.length}
               </div>
-              <div className="text-sm text-muted-foreground">Tổng hình ảnh</div>
+              <div className="text-sm text-muted-foreground">Total Images</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary mb-2">
                 {getUniqueYears().length}
               </div>
-              <div className="text-sm text-muted-foreground">Năm học</div>
+              <div className="text-sm text-muted-foreground">Academic Years</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary mb-2">
                 {getImagesByCategory('academic').length}
               </div>
-              <div className="text-sm text-muted-foreground">Sự kiện học thuật</div>
+              <div className="text-sm text-muted-foreground">Academic Events</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-primary mb-2">
                 {getImagesByCategory('cultural').length + getImagesByCategory('sports').length}
               </div>
-              <div className="text-sm text-muted-foreground">Văn hóa & Thể thao</div>
+              <div className="text-sm text-muted-foreground">Cultural & Sports</div>
             </div>
           </div>
         </section>
 
         {/* Call to Action */}
         <section className="mt-16 text-center">
-          <h2 className="text-2xl font-bold mb-4">Chia sẻ khoảnh khắc của bạn</h2>
+          <h2 className="text-2xl font-bold mb-4">Share Your Moments</h2>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Bạn có những hình ảnh đẹp từ các sự kiện trường? Hãy chia sẻ với chúng tôi 
-            để bổ sung vào thư viện ảnh chung của cộng đồng.
+            Do you have beautiful photos from university events? Share them with us 
+            to add to our community's photo gallery.
           </p>
           <Button size="lg">
-            Liên hệ để chia sẻ ảnh
+            Contact to Share Photos
           </Button>
         </section>
       </div>
